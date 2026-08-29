@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>STEM//SORTER 84</title>
+<style>
+  :root{--ink:#d6d2c4;--dim:#77796f;--panel:#171a18;--well:#0b0d0c;--line:#4b4e48;--acid:#a8ff60;--amber:#ffbd58;--violet:#a58aff;--red:#ff6e69;--shadow:#050605}
+  *{box-sizing:border-box} html,body{height:100%;margin:0}
+  body{display:grid;place-items:center;background:#090b0a;color:var(--ink);font:11px/1.25 "Courier New",ui-monospace,monospace;letter-spacing:.02em;overflow:hidden;
+  body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 2px,#0003 3px 4px),radial-gradient(circle at 50% 40%,#26302933,transparent 55%);mix-blend-mode:screen}
+  button,input,select{font:inherit;color:inherit} button{cursor:pointer}
+  .machine{width:min(940px,96vw);height:min(620px,94vh);min-height:520px;background:linear-gradient(145deg,#292d29,#121411 58%,#222520);border:2px solid #555950;border-radius:13px;box-shadow:0 24px 70px #000, inset 0 1px #8a8e84,inset 0 -4px #090a09;padding:9px;display:grid;grid-template-rows:31px 118px 1fr 20px;gap:7px;position:relative}
+  .machine:after{content:"";position:absolute;inset:5px;border:1px dashed #3b3e39;border-radius:9px;pointer-events:none}
+  header{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding:0 5px;z-index:1}.brand{font-weight:bold;color:var(--acid);text-shadow:0 0 9px #9f6}.brand b{color:var(--ink)}
+  .status{margin-left:auto;color:var(--dim)}.lamp{display:inline-block;width:6px;height:6px;background:var(--acid);border-radius:50%;box-shadow:0 0 7px var(--acid);margin-right:5px;animation:pulse 2s infinite}@keyframes pulse{50%{opacity:.35}}
+  .top{display:grid;grid-template-columns:1.5fr .9fr 1.55fr;grid-template-rows:minmax(0,1fr);gap:7px;min-height:0}.module{background:var(--panel);border:1px solid var(--line);box-shadow:inset 0 0 0 2px #0c0e0d;padding:7px;min-width:0;min-height:0;position:relative}.label{position:absolute;top:-6px;left:7px;background:var(--panel);padding:0 4px;color:var(--dim)}
+  #scope{width:100%;height:100%;background:#060907;border:1px solid #3d4e3c;image-rendering:pixelated}.scopewrap{height:100%;position:relative}.scopemeta{position:absolute;inset:4px;display:flex;justify-content:space-between;color:#70a15a;font-size:9px;pointer-events:none}.scopemeta span:last-child{align-self:flex-end}
+  .knobs{display:flex;align-items:center;justify-content:space-around;height:100%}.knobbox{text-align:center;color:var(--dim)}.knob{--a:-125deg;width:42px;height:42px;border-radius:50%;margin:0 auto 5px;background:radial-gradient(circle at 34% 28%,#5b6059 0 10%,#292d29 28%,#121512 67%,#080908 70%);border:1px solid #74796f;box-shadow:0 3px 4px #000;position:relative;touch-action:none}.knob:before{content:"";position:absolute;left:19px;top:4px;width:3px;height:14px;background:var(--amber);box-shadow:0 0 5px #fa5;transform-origin:2px 17px;transform:rotate(var(--a));border-radius:2px}.value{color:var(--amber)}
+  .pads{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:5px;height:100%}.pad{position:relative;background:linear-gradient(#333833,#181b18);border:1px solid #62685f;border-radius:3px;box-shadow:0 3px #080908;color:var(--dim);min-width:0;min-height:0;padding:3px}.pad strong{display:block;color:var(--ink);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:9px}.pad em{position:absolute;right:3px;bottom:1px;color:#656a63;font-style:normal}.pad.active{transform:translateY(2px);box-shadow:0 1px #000;background:#32402d;border-color:var(--acid);color:var(--acid)}.pad.armed{outline:1px dashed var(--amber)}
+  .work{display:grid;grid-template-columns:145px 1fr;gap:7px;min-height:0}.side{display:flex;flex-direction:column;gap:6px}.lcd{background:#0b100c;border:1px solid #384238;color:var(--acid);padding:7px;min-height:88px;text-shadow:0 0 6px #8f6;white-space:pre-line}.meter{height:5px;background:#050605;margin-top:6px}.meter i{display:block;height:100%;width:42%;background:linear-gradient(90deg,var(--acid),var(--amber),var(--red))}
+  .stack{display:grid;gap:4px}.ctrl,select,.smallbtn{height:25px;background:#111411;border:1px solid #4a4e47;padding:0 7px;outline:none}.ctrl:focus,select:focus{border-color:var(--acid)}.smallbtn:hover{color:var(--acid);border-color:var(--acid)}.smallbtn.primary{color:#0b0e0b;background:var(--acid);border-color:#d8ffb6;font-weight:bold}.smallbtn.warn{color:var(--amber)}
+  .drop{border:1px dashed #596058;color:var(--dim);display:grid;place-items:center;text-align:center;min-height:55px;padding:4px}.drop.hot{border-color:var(--acid);color:var(--acid);background:#162015}.drop input{display:none}
+  .browser{min-width:0;display:grid;grid-template-rows:31px 1fr 25px;background:var(--panel);border:1px solid var(--line)}.toolbar{display:grid;grid-template-columns:1fr 112px 80px 70px;gap:5px;padding:4px;border-bottom:1px solid #393c38}.toolbar>*{height:22px}
+  .tablewrap{overflow:auto;min-height:0}table{width:100%;border-collapse:collapse;table-layout:fixed}th{text-align:left;color:var(--dim);position:sticky;top:0;background:#191c19;border-bottom:1px solid #4b4e48;z-index:1;cursor:pointer}th,td{padding:5px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}th:nth-child(1){width:27px}th:nth-child(2){width:34%}th:nth-child(3){width:74px}th:nth-child(4){width:54px}th:nth-child(5){width:52px}tr{border-bottom:1px dotted #30332f}tbody tr:hover{background:#222722}tbody tr.selected{background:#2a3228;color:var(--acid)}.star{color:#555}.star.on{color:var(--amber)}.type{color:var(--violet)}
+  .footbar{display:flex;align-items:center;gap:8px;border-top:1px solid #393c38;padding:0 6px;color:var(--dim)}.footbar span:last-child{margin-left:auto}.ticker{overflow:hidden;white-space:nowrap;color:#72776f;border-top:1px solid #31342f;padding-top:4px}.ticker b{color:var(--amber)}
+  dialog{background:#181b18;color:var(--ink);border:1px solid #686d64;box-shadow:0 20px 70px #000;padding:14px;width:310px}dialog::backdrop{background:#000a}.form{display:grid;gap:8px}.form label{display:grid;gap:3px;color:var(--dim)}.form menu{display:flex;justify-content:flex-end;gap:6px;margin:4px 0 0;padding:0}
+  @media(max-width:720px){.machine{height:98vh;width:99vw;border-radius:4px;grid-template-rows:31px 190px 1fr 18px}.top{grid-template-columns:1.1fr .8fr;grid-template-rows:76px minmax(0,1fr)}.top .module:last-child{grid-column:1/-1}.work{grid-template-columns:116px 1fr}.toolbar{grid-template-columns:1fr 90px}.toolbar>*:nth-child(n+3){display:none}th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5){display:none}}
+</style>
+</head>
+<body>
+<main class="machine" aria-label="Retro music sample organizer">
+<header><span class="brand">STEM//<b>SORTER</b> 84</span><span>░▒▓ AUDIO INDEX TERMINAL</span><span class="status"><i class="lamp"></i><span id="clock">READY</span></span></header>
+<section class="top">
+  <div class="module"><span class="label">OSCILLOSCOPE // MONITOR</span><div class="scopewrap"><canvas id="scope"></canvas><div class="scopemeta"><span>CH.A  1V/DIV</span><span id="scopeName">NO SIGNAL</span></div></div></div>
+  <div class="module"><span class="label">CHANNEL STRIP</span><div class="knobs">
+    <div class="knobbox"><div class="knob" data-key="gain" data-min="0" data-max="1.4" data-value="0.82"></div>GAIN<br><span class="value" id="gainVal">82%</span></div>
+    <div class="knobbox"><div class="knob" data-key="filter" data-min="120" data-max="16000" data-value="16000"></div>CUTOFF<br><span class="value" id="filterVal">16K</span></div>
+    <div class="knobbox"><div class="knob" data-key="pitch" data-min="-12" data-max="12" data-value="0"></div>PITCH<br><span class="value" id="pitchVal">0 ST</span></div>
+  </div></div>
+  <div class="module"><span class="label">TRIGGER PADS // KEYS 1–8</span><div class="pads" id="pads"></div></div>
+</section>
+<section class="work">
+  <aside class="side module"><span class="label">SESSION</span>
+    <div class="lcd" id="lcd">BANK_A://UNTITLED
+120 BPM · 4/4
+0 ITEMS SELECTED<div class="meter"><i id="meterBar"></i></div></div>
+    <div class="stack"><button class="smallbtn primary" id="newBtn">[+] NEW ASSET</button><button class="smallbtn" id="armBtn">ASSIGN → PAD</button><button class="smallbtn" id="exportBtn">EXPORT MANIFEST</button></div>
+    <label class="drop" id="drop">DROP AUDIO HERE<br><small>WAV · MP3 · OGG</small><input id="fileInput" type="file" accept="audio/*" multiple></label>
+  </aside>
+  <section class="browser">
+    <div class="toolbar"><input class="ctrl" id="search" placeholder="/ FIND NAME OR TAG"/><select id="typeFilter"><option value="all">ALL TYPES</option><option>STEM</option><option>LOOP</option><option>ONE-SHOT</option><option>VOCAL</option><option>FX</option></select><select id="keyFilter"><option value="all">ALL KEYS</option></select><button class="smallbtn warn" id="clearBtn">CLEAR</button></div>
+    <div class="tablewrap"><table><thead><tr><th data-sort="fav">★</th><th data-sort="name">ASSET NAME</th><th data-sort="type">TYPE</th><th data-sort="bpm">BPM</th><th data-sort="key">KEY</th><th data-sort="tags">TAGS / NOTES</th></tr></thead><tbody id="rows"></tbody></table></div>
+    <div class="footbar"><span id="count">0 ASSETS</span><span>CLICK: SELECT/PLAY · DBLCLICK: EDIT</span><span id="sortLabel">SORT: NAME ↑</span></div>
+  </section>
+</section>
+<footer class="ticker">SYS: <b>LOCAL MODE</b> // SHIFT+1–8 ASSIGNS SELECTED ASSET // SPACE RETRIGGERS // DATA STAYS IN THIS TAB</footer>
+</main>
+<dialog id="assetDialog"><form method="dialog" class="form" id="assetForm"><b id="dialogTitle">CREATE ASSET</b><label>NAME<input class="ctrl" name="name" required maxlength="48"></label><label>TYPE<select name="type"><option>LOOP</option><option>STEM</option><option>ONE-SHOT</option><option>VOCAL</option><option>FX</option></select></label><label>BPM<input class="ctrl" name="bpm" type="number" min="20" max="400" value="120"></label><label>KEY<input class="ctrl" name="key" maxlength="4" placeholder="C#m"></label><label>TAGS / NOTES<input class="ctrl" name="tags" maxlength="80" placeholder="dusty, drums, verse"></label><menu><button class="smallbtn" value="cancel">CANCEL</button><button class="smallbtn primary" value="default" id="saveAsset">SAVE</button></menu></form></dialog>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const demo=[
+ {name:'NEON_DRUM_BREAK_01',type:'LOOP',bpm:124,key:'—',tags:'drums, crunchy, 4bar',tone:52,fav:true},
+ {name:'VOID_BASS_C#m',type:'STEM',bpm:124,key:'C#m',tags:'bass, analog, verse',tone:38},
+ {name:'TAPE_KICK_07',type:'ONE-SHOT',bpm:0,key:'—',tags:'kick, tape, heavy',tone:46},
+ {name:'GLASS_VOX_CHOP',type:'VOCAL',bpm:98,key:'Am',tags:'vocal, airy, chop',tone:69,fav:true},
+ {name:'MODEM_RITUAL',type:'FX',bpm:0,key:'—',tags:'glitch, riser, digital',tone:76},
+ {name:'NIGHTBUS_CHORDS',type:'LOOP',bpm:110,key:'Fm',tags:'keys, nocturnal, 8bar',tone:57},
+ {name:'RUST_HAT_OPEN',type:'ONE-SHOT',bpm:0,key:'—',tags:'hat, metallic',tone:84},
+ {name:'ROOM_MIC_WASH',type:'STEM',bpm:72,key:'Dm',tags:'texture, field, stereo',tone:43}
+].map((x,i)=>({...x,id:crypto.randomUUID(),demo:true,index:i}));
+let assets=[...demo], selected=assets[0], sort={key:'name',dir:1}, armed=false, editTarget=null;
+let padMap=assets.slice(0,8), audio=null, analyser=null, gainNode=null, filterNode=null, currentSource=null, raf=0;
+const settings={gain:.82,filter:16000,pitch:0};
+function audioSetup(){if(audio)return;audio=new (window.AudioContext||window.webkitAudioContext)();analyser=audio.createAnalyser();analyser.fftSize=512;filterNode=audio.createBiquadFilter();filterNode.type='lowpass';gainNode=audio.createGain();filterNode.connect(gainNode).connect(analyser).connect(audio.destination);applyAudio();drawScope()}
+function applyAudio(){if(!audio)return;gainNode.gain.setTargetAtTime(settings.gain,audio.currentTime,.02);filterNode.frequency.setTargetAtTime(settings.filter,audio.currentTime,.02)}
+async function playAsset(a){if(!a)return;audioSetup();if(audio.state==='suspended')await audio.resume();if(currentSource)try{currentSource.stop()}catch{};
+ let src,stopAt=0;if(a.url){const buf=await fetch(a.url).then(r=>r.arrayBuffer()).then(b=>audio.decodeAudioData(b.slice(0)));src=audio.createBufferSource();src.buffer=buf;src.detune.value=settings.pitch*100;src.connect(filterNode)}else{src=audio.createOscillator();const g=audio.createGain(),duration=a.type==='LOOP'||a.type==='STEM'?1.35:.3;src.type=['square','sawtooth','triangle'][a.index%3];src.frequency.value=55*Math.pow(2,(a.tone-33)/12);src.detune.value=settings.pitch*100;g.gain.setValueAtTime(.42,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+duration-.05);src.connect(g).connect(filterNode);stopAt=audio.currentTime+duration}
+ currentSource=src;src.start();if(stopAt)src.stop(stopAt);$('#scopeName').textContent=a.name.slice(0,20);$('#meterBar').style.width=Math.round(settings.gain*71)+'%';setTimeout(()=>{if(currentSource===src)$('#scopeName').textContent='SIGNAL HOLD'},1400)}
+function drawScope(){cancelAnimationFrame(raf);const c=$('#scope'),x=c.getContext('2d');function frame(){const dpr=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;if(c.width!==w*dpr){c.width=w*dpr;c.height=h*dpr}x.setTransform(dpr,0,0,dpr,0,0);x.fillStyle='#050806';x.fillRect(0,0,w,h);x.strokeStyle='#142314';x.lineWidth=1;for(let i=0;i<9;i++){x.beginPath();x.moveTo(i*w/8,0);x.lineTo(i*w/8,h);x.stroke()}for(let i=0;i<5;i++){x.beginPath();x.moveTo(0,i*h/4);x.lineTo(w,i*h/4);x.stroke()}const data=new Uint8Array(analyser.frequencyBinCount);analyser.getByteTimeDomainData(data);x.strokeStyle='#a8ff60';x.shadowColor='#8f6';x.shadowBlur=4;x.beginPath();data.forEach((v,i)=>{const px=i/(data.length-1)*w,py=v/255*h;i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke();x.shadowBlur=0;raf=requestAnimationFrame(frame)}frame()}
+function renderPads(){const el=$('#pads');el.innerHTML='';for(let i=0;i<8;i++){const a=padMap[i],b=document.createElement('button');b.className='pad'+(armed?' armed':'');b.innerHTML=`<strong>${a?a.name:'EMPTY SLOT'}</strong>${a?a.type:'DROP/ASSIGN'}<em>${i+1}</em>`;b.onclick=()=>{if(armed&&selected){padMap[i]=selected;armed=false;$('#armBtn').textContent='ASSIGN → PAD';renderPads();flash(`ASSIGNED ${selected.name} → PAD ${i+1}`)}else{playAsset(a);hitPad(i)}};el.append(b)}}
+function hitPad(i){const b=$$('.pad')[i];if(!b)return;b.classList.add('active');setTimeout(()=>b.classList.remove('active'),120)}
+function filtered(){const q=$('#search').value.toLowerCase(),t=$('#typeFilter').value,k=$('#keyFilter').value;return assets.filter(a=>(!q||(a.name+' '+a.tags).toLowerCase().includes(q))&&(t==='all'||a.type===t)&&(k==='all'||a.key===k)).sort((a,b)=>{let av=a[sort.key]??'',bv=b[sort.key]??'';if(sort.key==='fav'){av=!!av;bv=!!bv}return (av>bv?1:av<bv?-1:0)*sort.dir})}
+function render(){const list=filtered(),body=$('#rows');body.innerHTML='';list.forEach(a=>{const tr=document.createElement('tr');if(a===selected)tr.classList.add('selected');tr.innerHTML=`<td class="star ${a.fav?'on':''}">${a.fav?'★':'☆'}</td><td>${esc(a.name)}</td><td class="type">${a.type}</td><td>${a.bpm||'—'}</td><td>${esc(a.key||'—')}</td><td>${esc(a.tags||'')}</td>`;tr.onclick=e=>{if(e.target.classList.contains('star')){a.fav=!a.fav;render();return}selected=a;render();updateLCD();playAsset(a)};tr.ondblclick=()=>openDialog(a);body.append(tr)});$('#count').textContent=`${list.length} ASSET${list.length===1?'':'S'} / ${assets.length} TOTAL`;$('#sortLabel').textContent=`SORT: ${sort.key.toUpperCase()} ${sort.dir>0?'↑':'↓'}`;updateKeys();updateLCD()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function updateKeys(){const el=$('#keyFilter'),v=el.value,keys=[...new Set(assets.map(a=>a.key).filter(k=>k&&k!=='—'))].sort();el.innerHTML='<option value="all">ALL KEYS</option>'+keys.map(k=>`<option>${esc(k)}</option>`).join('');el.value=keys.includes(v)?v:'all'}
+function updateLCD(){const a=selected;$('#lcd').childNodes[0].textContent=`BANK_A://UNTITLED\n${a?`${a.bpm||'FREE'} BPM · ${a.key||'—'}\n${a.name}`:'0 ITEMS SELECTED'}`}
+function flash(msg){$('#clock').textContent=msg;clearTimeout(flash.t);flash.t=setTimeout(()=>$('#clock').textContent='READY',1700)}
+function openDialog(a=null){editTarget=a;$('#dialogTitle').textContent=a?'EDIT ASSET':'CREATE ASSET';const f=$('#assetForm');f.name.value=a?.name||'';f.type.value=a?.type||'LOOP';f.bpm.value=a?.bpm||120;f.key.value=a?.key==='—'?'':a?.key||'';f.tags.value=a?.tags||'';$('#assetDialog').showModal();setTimeout(()=>f.name.focus(),20)}
+$('#assetForm').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,d=Object.fromEntries(new FormData(f));if(!d.name.trim())return;const x={name:d.name.trim().toUpperCase(),type:d.type,bpm:+d.bpm||0,key:d.key.trim()||'—',tags:d.tags.trim(),tone:48+assets.length%24,index:assets.length};if(editTarget)Object.assign(editTarget,x);else{Object.assign(x,{id:crypto.randomUUID(),demo:true});assets.push(x);selected=x}$('#assetDialog').close();render();flash(editTarget?'ASSET UPDATED':'ASSET CREATED')});
+$('#newBtn').onclick=()=>openDialog();$('#armBtn').onclick=()=>{armed=!armed;$('#armBtn').textContent=armed?'CHOOSE PAD [1–8]':'ASSIGN → PAD';renderPads()};
+$('#search').oninput=render;$('#typeFilter').onchange=render;$('#keyFilter').onchange=render;$$('th[data-sort]').forEach(th=>th.onclick=()=>{const k=th.dataset.sort;sort.dir=sort.key===k?-sort.dir:1;sort.key=k;render()});
+function importFiles(files){[...files].filter(f=>f.type.startsWith('audio/')).forEach(f=>{const clean=f.name.replace(/\.[^.]+$/,'').replace(/[^\w-]+/g,'_').toUpperCase();const a={id:crypto.randomUUID(),name:clean,type:'ONE-SHOT',bpm:0,key:'—',tags:`imported, ${Math.round(f.size/1024)}kb`,url:URL.createObjectURL(f),file:f};assets.push(a);selected=a});render();flash(`${files.length} FILE(S) IMPORTED`)}
+const drop=$('#drop');drop.onclick=()=>$('#fileInput').click();$('#fileInput').onchange=e=>importFiles(e.target.files);['dragenter','dragover'].forEach(n=>drop.addEventListener(n,e=>{e.preventDefault();drop.classList.add('hot')}));['dragleave','drop'].forEach(n=>drop.addEventListener(n,e=>{e.preventDefault();drop.classList.remove('hot');if(n==='drop')importFiles(e.dataTransfer.files)}));
+$('#clearBtn').onclick=()=>{$('#search').value='';$('#typeFilter').value='all';$('#keyFilter').value='all';render()};
+$('#exportBtn').onclick=()=>{const clean=assets.map(({id,file,url,demo,index,tone,...a})=>a),blob=new Blob([JSON.stringify({format:'stem-sorter-84',version:1,exported:new Date().toISOString(),assets:clean},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='stem-sorter-manifest.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);flash('MANIFEST EXPORTED')};
+$$('.knob').forEach(k=>{let sy,sv;const key=k.dataset.key,min=+k.dataset.min,max=+k.dataset.max;function set(v){v=Math.max(min,Math.min(max,v));settings[key]=v;k.dataset.value=v;const p=(v-min)/(max-min);k.style.setProperty('--a',`${-125+p*250}deg`);if(key==='gain')$('#gainVal').textContent=Math.round(v*100)+'%';if(key==='filter')$('#filterVal').textContent=v>=1000?(v/1000).toFixed(v<10000?1:0)+'K':Math.round(v);if(key==='pitch')$('#pitchVal').textContent=(v>0?'+':'')+Math.round(v)+' ST';applyAudio()}set(+k.dataset.value);k.onpointerdown=e=>{sy=e.clientY;sv=settings[key];k.setPointerCapture(e.pointerId)};k.onpointermove=e=>{if(sy==null)return;set(sv+(sy-e.clientY)*(max-min)/140)};k.onpointerup=()=>sy=null;k.onwheel=e=>{e.preventDefault();set(settings[key]+(e.deltaY<0?1:-1)*(max-min)/100)}});
+addEventListener('keydown',e=>{if(/INPUT|SELECT/.test(e.target.tagName))return;const i=+e.key-1;if(i>=0&&i<8){if(e.shiftKey&&selected){padMap[i]=selected;renderPads();flash(`ASSIGNED → PAD ${i+1}`)}else{playAsset(padMap[i]);hitPad(i)}}if(e.code==='Space'){e.preventDefault();playAsset(selected)}});
+renderPads();render();
+</script>
+</body>
+</html>

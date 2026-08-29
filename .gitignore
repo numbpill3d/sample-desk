@@ -1,0 +1,4 @@
+# Nothing here is built or installed — the app is the single index.html.
+*.log
+.DS_Store
+Thumbs.db
