@@ -10,6 +10,8 @@ boxes, pill buttons, period alert dialogs — with the instrumentation inside th
 panels pushed toward a minimal-futurist register: pixel-monospace readouts,
 letterspaced machine labels, serial codes, registration marks and reticles.
 
+**▶ [Open it in your browser](https://numbpill3d.github.io/sample-desk/)** — no install, no build, nothing leaves your tab.
+
 ![Sample Desk 2.0](screenshots/sample-desk.png)
 
 **Strictly one bit.** The only two colours in the entire file are `#000` and
@@ -22,7 +24,9 @@ grep -oE '#[0-9a-fA-F]{3,6}' index.html | sort -u    # → #000 #fff
 
 ## Run
 
-Open `index.html` directly in a browser, or serve it locally:
+The hosted copy is at **https://numbpill3d.github.io/sample-desk/**.
+
+To run it yourself, open `index.html` directly in a browser, or serve it locally:
 
 ```bash
 cd /home/scorn/retro-stem-terminal
